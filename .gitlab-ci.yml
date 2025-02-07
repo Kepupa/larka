@@ -1,0 +1,37 @@
+image: docker:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  COMPOSE_PROJECT_NAME: "laravel_project"
+
+before_script:
+  - docker --version
+  - docker-compose --version
+
+build:
+  stage: build
+  script:
+    - echo "Building Docker images..."
+    - docker-compose build
+  only:
+    - main
+
+test:
+  stage: test
+  script:
+    - echo "Running Laravel tests..."
+    - docker-compose run --rm app php artisan test
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying application..."
+    - docker-compose up -d
+  only:
+    - main
