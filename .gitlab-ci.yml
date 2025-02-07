@@ -1,4 +1,4 @@
-image: docker:latest
+image: docker:3.8
 
 stages:
   - build
